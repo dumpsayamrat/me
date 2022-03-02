@@ -1,7 +1,7 @@
 // custom typefaces
 import "typeface-montserrat"
-import "typeface-merriweather"
-import "typeface-league-spartan"
+import "./fonts/cloud/index.css"
+import "./fonts/mitr/index.css"
 
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
