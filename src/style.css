@@ -55,8 +55,8 @@
   --fontSize-6: 2.488rem;
   --fontSize-7: 2.986rem;
   --color-primary: #005b99;
-  --color-text: #2e353f;
-  --color-text-light: #4f5969;
+  --color-text: #505763;
+  --color-text-light: #626873;
   --color-heading: #1a202c;
   --color-heading-black: black;
   --color-accent: #d1dce5;
@@ -115,12 +115,12 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--fontWeight-medium);
+  font-weight: var(--fontWeight-normal);
   color: var(--color-heading);
 }
 
 h1 {
-  font-weight: var(--fontWeight-black);
+  font-weight: 400;
   font-size: var(--fontSize-6);
   color: var(--color-heading-black);
 }
@@ -310,8 +310,9 @@ a:focus {
 }
 
 .blog-post header p {
-  font-size: var(--fontSize-2);
+  font-size: var(--fontSize-0);
   font-family: var(--font-body);
+  color: var(--color-text-light);
 }
 
 .blog-post-nav ul {
