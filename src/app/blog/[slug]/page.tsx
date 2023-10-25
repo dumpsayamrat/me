@@ -4,6 +4,9 @@ import { allBlogs } from 'contentlayer/generated'
 import Balancer from 'react-wrap-balancer'
 import { Mdx } from '@/components/Mdx'
 import { generatePageMetadata } from '@/seo'
+import { Suspense } from 'react'
+import View from '@/components/View'
+import { ViewIncrement } from './components/ViewIncrement'
 
 function formatDate(date: string) {
   const currentDate = new Date()
@@ -60,6 +63,7 @@ export default async function Blog({ params }: any) {
 
   return (
     <>
+      <ViewIncrement slug={params.slug} />
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -70,9 +74,12 @@ export default async function Blog({ params }: any) {
       <h1 className="font-bold text-2xl tracking-tighter">
         <Balancer>{post.title}</Balancer>
       </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm max-w-[650px]">
+      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.publishedAt)}
+          {formatDate(post.publishedAt)} —{' '}
+          <Suspense fallback={<span>loading...</span>}>
+            <View slug={params.slug} />
+          </Suspense>
         </p>
       </div>
       <Mdx code={post.body.code} />
