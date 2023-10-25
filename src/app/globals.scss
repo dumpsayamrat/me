@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  list-style: none;
+
+  .navbar-list {
+    list-style: none;
+    display: flex;
+  }
+  .navbar-list {
+    @apply my-5;
+  }
+
+  li {
+    margin: 0 10px;
+    a {
+      text-decoration: none;
+      position: relative; // Required for the underline effect
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px; // Adjust the underline height as needed
+        bottom: 0;
+        left: 0;
+        background-color: transparent;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform 0.3s;
+      }
+    }
+  }
+}
+
+.avatar {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0px;
+  object-fit: cover;
+  object-position: center center;
+  color: transparent;
+}
+
+[data-rehype-pretty-code-fragment] {
+  code {
+    @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-sm text-black;
+    counter-reset: line;
+    box-decoration-break: clone;
+  }
+
+  .line {
+    @apply py-1;
+  }
+
+  [data-line-numbers] > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 1rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: gray;
+  }
+
+  [data-highlighted-line] {
+    @apply bg-slate-500 bg-opacity-30;
+  }
+
+  [data-highlighted-line] span {
+    @apply relative;
+  }
+
+  [data-highlighted-chars] {
+    @apply rounded-md bg-slate-500 bg-opacity-30 p-1;
+  }
+}
+
+[data-rehype-pretty-code-title] {
+  @apply px-4 py-3 font-mono text-xs font-medium border rounded-t-lg text-neutral-200;
+  border-color: #333333;
+  background-color: #1c1c1c;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  @apply mt-0 rounded-t-none border-t-0;
+}
+
+:is(.dark) {
+  pre[data-theme='light'],
+  code[data-theme='light'] {
+    display: none;
+  }
+}
+
+:is(.light) {
+  pre[data-theme='dark'],
+  code[data-theme='dark'] {
+    display: none;
+  }
+}
