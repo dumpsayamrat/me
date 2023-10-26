@@ -14,7 +14,7 @@ export default async function View({ slug }: { slug: string }) {
 export async function CachedView({ slug }: { slug: string }) {
   const views = await getAllViews()
   const key = generateBlogKey(slug)
-  const view = views[key]
+  const view = views[key] || 0
   return (
     <span>
       {view} {`view${view > 1 ? 's' : ''}`}
