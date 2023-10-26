@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import View from '@/components/View'
 import { ViewIncrement } from './components/ViewIncrement'
 import { Loading } from '@/components/Loading'
+import Image from 'next/image'
 
 function formatDate(date: string) {
   const currentDate = new Date()
@@ -52,6 +53,7 @@ export async function generateMetadata({
   return generatePageMetadata({
     title: post?.title || 'blog',
     description: post?.summary,
+    image: post?.image,
   })
 }
 
@@ -65,25 +67,43 @@ export default async function Blog({ params }: any) {
   return (
     <>
       <ViewIncrement slug={params.slug} />
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(post.structuredData),
-        }}
-      ></script>
-      <h1 className="font-bold text-2xl tracking-tighter">
-        <Balancer>{post.title}</Balancer>
-      </h1>
-      <div className="flex justify-between items-center mt-2 mb-8 text-sm">
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {formatDate(post.publishedAt)} —{' '}
-          <Suspense fallback={<Loading size="small" />}>
-            <View slug={params.slug} />
-          </Suspense>
-        </p>
+      <div className="prose lg:prose-xl dark:prose-invert mx-auto max-w-3xl">
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(post.structuredData),
+          }}
+        ></script>
+        <h1
+          className="font-bold text-2xl tracking-tighter"
+          style={{ marginBottom: 0 }}
+        >
+          <Balancer>{post.title}</Balancer>
+        </h1>
+        <div className="flex justify-between items-center mt-2 mb-8 text-sm">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            {formatDate(post.publishedAt)} —{' '}
+            <Suspense fallback={<Loading size="small" />}>
+              <View slug={params.slug} />
+            </Suspense>
+          </p>
+        </div>
       </div>
-      <Mdx code={post.body.code} />
+      {post.image && (
+        <div className="my-10 sm:mx-0 xl:mx-20 flex justify-center">
+          <Image
+            src={post.image}
+            alt={post.summary}
+            width={1936}
+            height={1425}
+            className="rounded-lg"
+          />
+        </div>
+      )}
+      <div className="prose lg:prose-xl dark:prose-invert mx-auto max-w-3xl">
+        <Mdx code={post.body.code} />
+      </div>
     </>
   )
 }

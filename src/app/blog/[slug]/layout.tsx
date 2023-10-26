@@ -3,9 +3,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <article className="prose lg:prose-xl dark:prose-invert mx-auto">
-      {children}
-    </article>
-  )
+  return <article className="mx-auto">{children}</article>
 }
