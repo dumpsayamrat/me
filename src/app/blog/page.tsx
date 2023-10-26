@@ -1,12 +1,15 @@
+import { Loading } from '@/components/Loading'
+import { CachedView } from '@/components/View'
 import { generatePageMetadata } from '@/seo'
 import { allBlogs } from 'contentlayer/generated'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 export const metadata = generatePageMetadata({
   title: `blog`,
 })
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       {allBlogs
@@ -30,7 +33,11 @@ export default function Home() {
                   month: 'long',
                   day: 'numeric',
                   year: 'numeric',
-                })}
+                })}{' '}
+                —{' '}
+                <Suspense fallback={<Loading size={'small'} />}>
+                  <CachedView slug={post.slug} />
+                </Suspense>
               </p>
               <p className="text-gray-700 dark:text-gray-500">{post.summary}</p>
             </div>
