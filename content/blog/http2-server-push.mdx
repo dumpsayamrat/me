@@ -1,0 +1,168 @@
+---
+title: ทดลองสร้าง HTTP/2 Server Push ด้วย Node.js
+publishedAt: '2023-10-26'
+summary: 'การทำงานของ Server Push และสร้างแอปเพื่อใช้งานความสามารถของ Server Push โดยใช้ Node.js ครับ'
+image: '/images/http2-server-push/banner.jpg'
+---
+
+หลังจากที่ HTTP/2 ได้เปิดตัวตั้งแต่ปี 2015 และได้รับการพิสูจน์แล้วว่า การใช้ HTTP/2 สามารถลด Latency Time ได้จริง ด้วย Features ต่างๆ ของ HTTP/2 ดังนี้
+
+- **Binary**: ปรับค่าต่างๆ ให้อยู่ในรูปแบบ Binary แทนที่จะเป็นข้อความธรรมดา
+- **Multiplexed**: สามารถส่ง Request ได้หลายครั้งภายใต้ TCP Connection เพียงอันเดียว เช่น Browser ขอไฟล์ 3 ไฟล์จาก Server ถ้าเป็น HTTP/1 ก็จะใช้ 3 Connection แต่ถ้าเป็น HTTP/2 ก็จะใช้เพียง Connection เดียว
+- **Header Compression**: บีบอัดขนาดของ Header โดยใช้ HPACK
+- **Server Push: ส่งข้อมูลหรือ** Response อะไรบางอย่างไปยัง Client โดยไม่ต้องรอ Request เดี๋ยวจะพูดถึงเรื่องนี้อีกทีด้านล่างนะครับ
+
+โดยในบทความนี้ผมจะมาพูดถึงเรื่องการทำงานของ Server Push และสร้างแอปเพื่อใช้งานความสามารถของ Server Push โดยใช้ Node.js ครับ
+
+## HTTP/2 Server push คืออะไร?
+
+คือการที่ Server ส่งข้อมูลหรือ Response อะไรบางอย่างกลับไปยัง Client ให้เลยโดยไม่ต้องรอ Request จาก Client ประมาณว่าถ้า Client ขอไฟล์ `index.html` จาก Server แล้ว Server ก็รู้ว่าเดี๋ยวมันจะต้องขอ `styles.css` และ `app.js` ต่อแน่ๆ แทนที่จะรอให้ Client ขอไฟล์ Server ก็จัดการ Response `styles.css` และ `app.js` ไปพร้อมกลับ index.htmlเลย
+
+```html title="index.html"
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello HTTP/2</title>
+    <link rel="stylesheet" href="/app.css" media="all">
+  </head>
+  <body>
+    <h1>Hello HTTP/2</h1>
+    <script src="app.js"/></script>
+  </body>
+</html>
+```
+
+ถ้าแบบปกติที่ไม่ใช้ Server Push นะครับ เมื่อ User เข้า Web Browser `/index.html` หน้าตาของการปฏิสัมพันธ์กันระหว่าง Client กับ Server จะเป็นแบบนี้ครับ
+
+<Image
+  alt={`choc-factory`}
+  src={`/images/http2-server-push/example-1.png`}
+  width={768}
+  height={216}
+  className="dark:invert"
+/>
+<span className="text-xs text-center">
+  ตัวอย่างการสื่อสารระหว่าง Web Browser กับ Server ที่ไม่ใช้ HTTP/2 Server Push
+</span>
+
+และนี้ก็เป็นแบบปกติทั่วไปนะครับ ที่เราใช้เว็บกันอยู่ทุกวันมันก็ดู Make Sense ใช่ไหมครับ แล้วปัญหามันคืออะไรล่ะ?
+
+ปัญหาก็คือ User ต้องรอจนกว่า Web Browser จะ Render หน้า `index.html` เสร็จ และค้นหาบรรทัดที่ต้องโหลดไฟล์ `styles.css` และ `app.js` ให้เจอ Browser จึงจะทำการขอไฟล์ `styles.css` และ `app.js` ต่อไป ก็อาจจะเป็นปัญหาให้การ render หน้าเว็บช้าหรือว่าเพิ่ม Load time ได้
+
+และปัญหานี้ก็ก่อให้เกิด HTTP/2 Server Push ที่มากับความสามารถในการส่ง Asset ไฟล์ไปยัง Client เลย โดยไม่จำเป็นต้องรอ Request จาก Client
+
+ถ้า User เข้า Web Browser `/index.html` โดยมีการใช้ HTTP/2 Server Push หน้าตาของการปฏิสัมพันธ์กันระหว่าง Client กับ Server จะเป็นแบบนี้ครับ
+
+<Image
+  alt={`choc-factory`}
+  src={`/images/http2-server-push/example-2.png`}
+  width={768}
+  height={216}
+  className="dark:invert"
+/>
+<span className="text-xs text-center">
+  ตัวอย่างการสื่อสารระหว่าง Web Browser กับ Server ที่ใช้ HTTP/2 Server Push
+</span>
+
+ต่อไปเดี๋ยวลองไปดูตัวอย่างการ HTTP/2 Server Push ที่เป็นโค้ดนะครับ
+
+## ตัวอย่าง HTTP/2 Server Push ใน Node.js
+
+(เวอร์ชั่นที่ใช้ในตัวอย่างคือ Node.js v10.2.1)
+
+```js title="server.js"
+'use strict'
+
+const http2 = require('http2')
+const fs = require('fs')
+const path = require('path')
+const helper = require('./helper')
+
+const { HTTP2_HEADER_PATH } = http2.constants
+const PUBLIC_PATH = path.join(__dirname, '../public')
+const SSL_PATH = path.join(__dirname, '../ssl')
+
+const publicFiles = helper.getFiles(PUBLIC_PATH)
+
+function push(stream, path) {
+  const file = publicFiles.get(path)
+  if (!file) {
+    return
+  }
+  stream.pushStream(
+    { [HTTP2_HEADER_PATH]: path },
+    { parent: stream.id },
+    (err, pushStream, headers) => {
+      if (err) throw err
+      pushStream.respondWithFD(file.fileDescriptor, file.headers)
+    }
+  )
+}
+
+const server = http2.createSecureServer({
+  key: fs.readFileSync(SSL_PATH + '/server.key'),
+  cert: fs.readFileSync(SSL_PATH + '/server.crt'),
+})
+
+server.on('stream', (stream, headers) => {
+  console.log(headers[':path'])
+  const reqPath = headers[':path'] === '/' ? '/index.html' : headers[':path']
+  const file = publicFiles.get(reqPath)
+
+  if (!file) {
+    stream.statusCode = 404
+    stream.end()
+    return
+  }
+
+  if (reqPath === '/index.html') {
+    push(stream, '/styles.css')
+    push(stream, '/app.js')
+  }
+
+  stream.respondWithFD(file.fileDescriptor, file.headers)
+})
+
+server.on('error', err => console.error(err))
+
+server.listen(3030)
+```
+
+Run Server โดยพิมพ์คำสั่ง
+
+```shell
+node server.js --expose-http2
+```
+
+จากนั้นใช้ Web Browser เปิดไปที่ [https://localhost:3030](https://localhost:3030)
+
+แค่นี้เราก็จะสามารถใช้ความสามารถของ HTTP/2 Server Push ได้แล้ว หากต้องการดูโค้ดแบบเต็มๆ สามารถดูได้ที่ GitHub เลยครับ [https://gist.github.com/dumpsayamrat](https://gist.github.com/dumpsayamrat/8a66e34daa3b1617ccbcb23a1b9cbc84)
+
+### จะรู้ได้อย่างไรว่ามีการใช้งาน HTTP/2 Server Push หรือไม่
+
+อันดับแรกต้องทำให้แน่ใจก่อน SSL Certificate ที่ใช้ Secure ก่อนนะครับ ไม่อย่างนั้น Google Chrome จะไม่ยอมให้ใช้งาน Server Push
+
+[นี่คือวิธีทำให้ localhost ใช้งาน HTTPS ได้ (สำหรับ Mac)](https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec?source=post_page-----ec0cd8cdcdb3--------------------------------)
+
+ต่อมาให้เปิด Developer Tools ไปที่แท็บ Network
+
+<Image
+  alt={`choc-factory`}
+  src={`/images/http2-server-push/devtool-http.png`}
+  width={768}
+  height={216}
+/>
+<div className="text-xs text-center">แบบธรรมดา ไม่ใช้ HTTP/2 Server Push</div>
+
+<Image
+  alt={`choc-factory`}
+  src={`/images/http2-server-push/devtool-http2.png`}
+  width={768}
+  height={216}
+/>
+<div className="text-xs text-center">แบบใช้ HTTP/2 Server Push</div>
+
+ข้อแตกต่างระหว่างใช้กับไม่ใช้ HTTP/2 Server Push คือ ในช่อง Initiator ถ้าใช้จะแสดง Push / index.html ของแต่ละไฟล์ และ ช่อง Waterfall ถ้าใช้จะไม่มีแท็บสีเขียวเลย
+
+ผมก็หวังบทความนี้จะเป็นประโยชน์ไม่มากก็น้อยสำหรับทุกคนนะครับ ขอบคุณมากครับ

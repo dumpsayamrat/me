@@ -22,7 +22,13 @@ const CustomLink = (props: any) => {
 }
 
 function RoundedImage(props: any) {
-  return <Image alt={props.alt} {...props} />
+  return (
+    <Image
+      alt={props.alt}
+      style={{ marginBottom: '0.25em', ...(props.style || {}) }}
+      {...props}
+    />
+  )
 }
 
 const components = {
