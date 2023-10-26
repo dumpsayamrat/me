@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata({
 
 export default async function Home() {
   return (
-    <>
+    <section className="max-w-3xl mx-auto">
       {allBlogs
         .sort((a, b) => {
           if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
@@ -43,6 +43,6 @@ export default async function Home() {
             </div>
           </Link>
         ))}
-    </>
+    </section>
   )
 }

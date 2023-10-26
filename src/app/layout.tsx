@@ -96,8 +96,8 @@ export default function RootLayout({
       <link rel="alternate" type="application/rss+xml" href="/rss.xml" />
       <body className={`${mitr.className} bg-neutral-100 dark:bg-black`}>
         <ThemeProviders>
-          <section className="mx-auto max-w-3xl px-4 sm:px-6 xl:px-0">
-            <header>
+          <section className="mx-auto px-4 sm:px-6 xl:px-0">
+            <header className="max-w-3xl mx-auto">
               <Navbar />
             </header>
             <main className="mb-auto">{children}</main>

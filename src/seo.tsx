@@ -15,6 +15,7 @@ export function generatePageMetadata({
 }: PageSEOProps): Metadata {
   return {
     title,
+    description,
     openGraph: {
       title: `${title} | ${siteMetadata.title}`,
       description: description || siteMetadata.description,
