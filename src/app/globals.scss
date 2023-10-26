@@ -103,11 +103,21 @@ body {
   code[data-theme='light'] {
     display: none;
   }
+  [data-rehype-pretty-code-title][data-theme='light'] {
+    display: none;
+  }
 }
 
 :is(.light) {
   pre[data-theme='dark'],
   code[data-theme='dark'] {
     display: none;
+  }
+  [data-rehype-pretty-code-title][data-theme='dark'] {
+    display: none;
+  }
+
+  [data-rehype-pretty-code-title] {
+    @apply text-neutral-800 bg-white border-neutral-100;
   }
 }
