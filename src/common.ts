@@ -7,8 +7,8 @@ function wait(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export async function waitFor10Seconds(): Promise<void> {
-  console.log('Waiting for 10 seconds...')
-  await wait(10000) // 10000 milliseconds = 10 seconds
-  console.log('Done waiting for 10 seconds!')
+export async function waitForXSeconds(seconds: number): Promise<void> {
+  console.log(`Waiting for ${seconds} seconds...`)
+  await wait(seconds * 1000)
+  console.log(`Done waiting for ${seconds} seconds!`)
 }
