@@ -11,7 +11,7 @@ export const metadata = generatePageMetadata({
 
 export default function Home() {
   return (
-    <div className="items-start space-y-2 xl:grid xl:gap-x-8 xl:space-y-0">
+    <div className="items-start space-y-2 xl:grid xl:gap-x-8 xl:space-y-0 max-w-3xl mx-auto">
       <div className="flex flex-col items-center space-x-2">
         <Avatar />
         <div className="prose lg:prose-xl dark:prose-invert mx-auto">
