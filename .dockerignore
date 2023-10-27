@@ -1,0 +1,40 @@
+# .dockerignore
+
+# Node.js modules
+node_modules
+
+# Development files and directories
+.vscode
+.env
+.git
+.gitignore
+*.log
+*.swp
+
+# Build artifacts and temporary files
+out
+.next
+
+# Editor-specific files
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.user
+*.sln
+*.swp
+Thumbs.db
+.DS_Store
+
+# Dependency-related files
+npm-debug.log
+
+# Tests and testing-specific files
+__tests__
+test
+tests
+
+# IDE configuration files
+.idea
+
+.vercel
+.contentlayer
