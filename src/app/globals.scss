@@ -121,3 +121,38 @@ body {
     @apply text-neutral-800 bg-white border-neutral-100;
   }
 }
+
+.temporary-animated {
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn ease-in-out 1s;
+}
+
+.animate-fade-in-left {
+  animation: fadeInFromLeft ease-in-out 1s;
+}

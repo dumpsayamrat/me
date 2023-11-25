@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = ({ showText = false }: { showText?: boolean }) => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()
 
@@ -17,6 +17,7 @@ const ThemeSwitcher = () => {
   return (
     <button
       aria-label="Toggle Dark Mode"
+      className="flex"
       onClick={() =>
         setTheme(
           theme === 'dark' || resolvedTheme === 'dark' ? 'light' : 'dark'
@@ -39,6 +40,9 @@ const ThemeSwitcher = () => {
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
         )}
       </svg>
+      {showText && (
+        <span className="flex-1 ml-2 whitespace-nowrap">Themes</span>
+      )}
     </button>
   )
 }

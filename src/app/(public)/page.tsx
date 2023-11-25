@@ -1,15 +1,13 @@
 import Avatar from '@/components/Avatar'
 import { generatePageMetadata } from '@/seo'
 import { siteMetadata } from '@/site-metadata.mjs'
-import { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 export const metadata = generatePageMetadata({
   title: `me`,
 })
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="items-start space-y-2 xl:grid xl:gap-x-8 xl:space-y-0 max-w-3xl mx-auto">
       <div className="flex flex-col items-center space-x-2">

@@ -4,8 +4,19 @@ const { withContentlayer } = require('next-contentlayer')
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    serverActions: true,
+  images: {
+    imageSizes: [200, 400, 1050],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: `${
+          process.env.AWS_BUCKET || 'me-blog'
+        }.s3.ap-southeast-1.wasabisys.com`,
+        port: '',
+        pathname: '/**',
+      },
+    ],
+    minimumCacheTTL: 31536000,
   },
 }
 
