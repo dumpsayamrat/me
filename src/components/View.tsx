@@ -1,5 +1,5 @@
 import { getAllViews } from '@/cache/views'
-import { generateBlogKey } from '@/common'
+import { generateBlogKey } from '@/utils/common'
 import { kv } from '@vercel/kv'
 
 export default async function View({ slug }: { slug: string }) {

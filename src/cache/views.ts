@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { kv } from '@vercel/kv'
-import { generateBlogKey } from '@/common'
+import { generateBlogKey } from '@/utils/common'
 import MemoryCache from '@/memory-cache'
 import { CACHE_VIEWS_KEY } from '@/constants'
 

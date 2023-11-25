@@ -12,6 +12,9 @@ const navItems = {
   '/blog': {
     name: 'blog',
   },
+  '/gallery': {
+    name: 'gallery',
+  },
 }
 
 export default function Navbar() {
@@ -47,7 +50,7 @@ export default function Navbar() {
                     )}
                   >
                     {value.name}
-                    {path === pathname ? (
+                    {path === pathname || pathname.includes(value.name) ? (
                       <motion.div
                         className="absolute h-[1px] top-7 inset-0 bg-primary-500 dark:bg-stone-100 z-[-1] dark:bg-gradient-to-r from-transparent to-primary-900"
                         layoutId="sidebar"

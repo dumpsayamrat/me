@@ -23,6 +23,8 @@ export default function Footer() {
           <div>{` • `}</div>
           <div>{`© ${new Date().getFullYear()}`}</div>
           <div>{` • `}</div>
+          <div>{`All rights reserved`}</div>
+          <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
         </div>
       </div>
