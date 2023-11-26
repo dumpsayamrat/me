@@ -17,19 +17,20 @@ export default async function Gallery() {
   return (
     <div className="grid grid-cols-1 gap-1">
       {photos.map(photo =>
-        photo && photo.presignedURL ? (
+        photo && photo.url ? (
           <div
             key={photo.id}
             className="grid grid-cols-1 md:grid-cols-12 gap-x-4"
           >
             <div className="relative overflow-hidden flex items-center col-span-1 md:col-span-9 animate-fade-in">
               <Image
-                src={photo.presignedURL}
+                src={`/photo?key=${photo.url}`}
                 alt={photo.title}
                 width={LARGE_PHOTO_SIZE}
                 height={LARGE_PHOTO_SIZE / photo.aspectRatio}
                 blurDataURL={photo.blur}
                 placeholder="blur"
+                quality={100}
               />
             </div>
             <div className="sticky top-4 self-start col-span-1 md:col-span-3 animate-fade-in-left prose lg:prose-xl dark:prose-invert">
