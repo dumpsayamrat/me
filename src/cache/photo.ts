@@ -5,6 +5,16 @@ import { Photo } from '@/type'
 import { generatePhotoKey } from '@/utils/common'
 import { kv } from '@vercel/kv'
 import { cache } from 'react'
+import MemoryCache from '@/memory-cache'
+import { CACHE_GET_PRESIGNED_KEY, MEMO_CACHE_TIME } from '@/constants'
+
+const memoCache = MemoryCache.getInstance()
+
+export const getCachedPresignedURL = memoCache.cacheFunction(
+  getPresignedURL,
+  CACHE_GET_PRESIGNED_KEY,
+  MEMO_CACHE_TIME
+)
 
 export const getPhotoList = async () => {
   const keys = await kv.keys(generatePhotoKey('*'))

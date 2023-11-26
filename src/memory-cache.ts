@@ -34,7 +34,8 @@ class MemoryCache {
     expiresInMs?: number
   ): (...args: any[]) => Promise<T> {
     return async (...args: any[]) => {
-      const cachedResult = this.get<T>(cacheKey)
+      const resolvedKey = [cacheKey].concat(args.map(String)).join(':')
+      const cachedResult = this.get<T>(resolvedKey)
       if (cachedResult !== undefined) {
         return cachedResult
       }

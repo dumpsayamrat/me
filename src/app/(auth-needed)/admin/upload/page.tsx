@@ -196,6 +196,7 @@ export default function UploadPage() {
                 <div className="mt-2">
                   <input
                     type="number"
+                    step=".1"
                     name="aperture"
                     id="aperture"
                     className={styles.input}
@@ -210,6 +211,7 @@ export default function UploadPage() {
                 <div className="mt-2">
                   <input
                     type="number"
+                    step=".1"
                     name="iso"
                     id="iso"
                     className={styles.input}
@@ -224,6 +226,7 @@ export default function UploadPage() {
                 <div className="mt-2">
                   <input
                     type="number"
+                    step="any"
                     name="exposureTime"
                     id="exposure-time"
                     className={styles.input}
@@ -237,6 +240,7 @@ export default function UploadPage() {
                 <div className="mt-2">
                   <input
                     type="number"
+                    step=".1"
                     name="exposure"
                     id="exposure"
                     className={styles.input}

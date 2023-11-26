@@ -11,8 +11,7 @@ export const metadata = generatePageMetadata({
 export const revalidate = 'force-cache'
 
 export default async function Gallery() {
-  let photos = await getCachedPhotoList()
-  photos = photos.concat(photos).concat(photos).concat(photos)
+  const photos = await getCachedPhotoList()
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 mx-auto max-w-9xl">
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1 col-span-9">

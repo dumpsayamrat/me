@@ -3,7 +3,7 @@ import 'server-only'
 import { kv } from '@vercel/kv'
 import { generateBlogKey } from '@/utils/common'
 import MemoryCache from '@/memory-cache'
-import { CACHE_VIEWS_KEY } from '@/constants'
+import { CACHE_VIEWS_KEY, MEMO_CACHE_TIME } from '@/constants'
 
 const cache = MemoryCache.getInstance()
 
@@ -18,5 +18,5 @@ export const getAllViews = cache.cacheFunction<{ [key: string]: number }>(
     }, {} as { [key: string]: number })
   },
   CACHE_VIEWS_KEY,
-  12 * 60 * 60 * 1000
+  MEMO_CACHE_TIME
 )

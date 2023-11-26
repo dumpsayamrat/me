@@ -69,5 +69,5 @@ export async function put(url: string, file: File): Promise<boolean> {
 
 export const getPresignedURL = async (key: string) => {
   const command = new GetObjectCommand({ Bucket: BUCKET, Key: key })
-  return getSignedUrl(s3, command, { expiresIn: 120 })
+  return getSignedUrl(s3, command, { expiresIn: 604800 })
 }
