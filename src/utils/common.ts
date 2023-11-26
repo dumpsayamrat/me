@@ -53,3 +53,16 @@ export const convertDecimalToExposure = (decimalValue: number): string => {
   // Return the exposure time as a string
   return `1/${closestFraction}`
 }
+
+export const formatInputDate = (date: number): string => {
+  const newDateValue = new Date(date)
+  const year: string = newDateValue.getFullYear().toString()
+  const month: string = (newDateValue.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')
+  const day: string = newDateValue.getDate().toString().padStart(2, '0')
+  const hours: string = newDateValue.getHours().toString().padStart(2, '0')
+  const minutes: string = newDateValue.getMinutes().toString().padStart(2, '0')
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`
+}

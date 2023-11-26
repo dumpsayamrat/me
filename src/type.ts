@@ -14,11 +14,13 @@ export type Photo = {
   aspectRatio: number
   takenAt: number
   createdAt: number
+  updatedAt: number
   url: string
   pathname: string
   id: string
   blur: string
   presignedURL?: string
+  [key: string]: any
 }
 
 export type PhotoFormData = Photo & {
