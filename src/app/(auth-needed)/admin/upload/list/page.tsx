@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getPhotoList } from './action'
 import ResetDevelopmentButton from '@/components/photo/ResetDevelopmentButton'
 
@@ -17,6 +18,9 @@ const ListPage = async () => {
                 <strong>{key}:</strong> {photo[key]}
               </li>
             ))}
+            <li>
+              <Link href={`/admin/upload/${photo.id}`}>Edit</Link>
+            </li>
           </ul>
         ))}
       </div>

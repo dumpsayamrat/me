@@ -66,6 +66,29 @@ export default function AdminLayout({
               </Link>
             </li>
             <li>
+              <Link
+                href="/admin/upload/list"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className={clsx(
+                    'flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white',
+                    {
+                      'text-gray-900 dark:text-white':
+                        pathname.includes('/upload/list'),
+                    }
+                  )}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h16v2H4z" />
+                </svg>
+                <span className="flex-1 ml-3 whitespace-nowrap">List</span>
+              </Link>
+            </li>
+            <li>
               <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <ThemeSwitcher showText />
               </div>

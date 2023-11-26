@@ -25,6 +25,7 @@ export const savePhoto = async (formData: FormData): Promise<void> => {
     url: blobName,
     id,
     createdAt: Date.now(),
+    updatedAt: Date.now(),
   } as PhotoFormData)
   await kv.hmset(generatePhotoKey(id), photo)
 }

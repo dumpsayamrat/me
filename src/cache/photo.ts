@@ -34,6 +34,7 @@ export const getPhotoList = async () => {
           'aperture',
           'iso',
           'exposureTime',
+          'exposure',
           'aspectRatio',
           'takenAt',
           'createdAt',

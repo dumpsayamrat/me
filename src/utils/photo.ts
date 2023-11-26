@@ -16,6 +16,7 @@ export const convertFormDataToPhoto = (data: PhotoFormData): Photo => {
     aperture: Number(data.aperture),
     iso: Number(data.iso),
     exposureTime: Number(data.exposureTime),
+    exposure: Number(data.exposure),
     aspectRatio: Number(data.aspectRatio),
     takenAt: new Date(data.takenAt).valueOf(),
   }
