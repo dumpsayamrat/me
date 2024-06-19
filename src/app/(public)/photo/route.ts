@@ -1,4 +1,4 @@
-import { getCachedPresignedURL } from '@/cache/photo'
+import { getCachedPresignedURL } from '@/services/photo'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)

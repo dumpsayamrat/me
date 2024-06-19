@@ -28,3 +28,28 @@ export type PhotoFormData = Photo & {
   fileURL: string
   [k: string]: FormDataEntryValue
 }
+
+type PostStructuredData = {
+  '@context': string;
+  '@type': string;
+  headline: string;
+  datePublished: string;
+  dateModified: string;
+  description: string;
+  image: string;
+  url: string;
+  author: {
+    '@type': string;
+    name: string;
+  };
+}
+
+export type Post = {
+  title: string
+  publishedAt: string
+  summary: string
+  image: string 
+  slug: string
+  structuredData: PostStructuredData
+  body: string
+}

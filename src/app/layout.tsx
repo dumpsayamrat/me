@@ -3,7 +3,7 @@ import { Mitr } from 'next/font/google'
 import { ThemeProviders } from './theme-provider'
 import Navbar from '@/components/NavBar'
 import Footer from '@/components/Footer'
-import { siteMetadata } from '@/site-metadata.mjs'
+import { siteMetadata } from '@/site-metadata'
 import { Metadata } from 'next'
 
 const mitr = Mitr({

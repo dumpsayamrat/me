@@ -1,7 +1,7 @@
 import { Loading } from '@/components/Loading'
 import { CachedView } from '@/components/View'
 import { generatePageMetadata } from '@/seo'
-import { allBlogs } from 'contentlayer/generated'
+import { cachedGetPosts } from '@/services/posts'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
@@ -10,9 +10,11 @@ export const metadata = generatePageMetadata({
 })
 
 export default async function Home() {
+
+  const allPosts = await cachedGetPosts();
   return (
     <section className="max-w-3xl mx-auto">
-      {allBlogs
+      {allPosts
         .sort((a, b) => {
           if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
             return -1

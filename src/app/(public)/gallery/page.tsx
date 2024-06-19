@@ -1,4 +1,4 @@
-import { getCachedPhotoList } from '@/cache/photo'
+import { getCachedPhotoList } from '@/services/photo'
 import LocalDate from '@/components/LocalDate'
 import { LARGE_PHOTO_SIZE } from '@/constants'
 import { generatePageMetadata } from '@/seo'

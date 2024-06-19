@@ -180,7 +180,7 @@ const compose =
 
 `compose` ตอนนี้เป็นฟังก์ชันที่รับอาเรย์ของฟังก์ชันมาวนลูปเพื่อ Call แต่ละฟังก์ชันในอาเรย์นั้นครับ ที่ใช้ `reduceRight` เพราะต้องการให้ Call จากขวาไปซ้าย เช่น `compose(fn3, fn2, fn1)('value')` รอบการทำงานจะเป็นแบบนี้ครับ
 
-```
+```text
 [fn3, fn2, fn1].reduceRight((v, f) => f(v), 'value');
 //...
 0. v = 'value', f = fn1(v)
@@ -247,7 +247,7 @@ const toSlug = compose(
 
 เมื่อใช้ `compose` โค้ดก็จะอ่านและแก้ไขได้ง่ายมากครับ เช่น หากไม่อยากลบตัวอักษรพิเศษแล้วก็เพียงแค่ลบ `map(removeSpecialChar)` ออก ส่วนการทำงานของฟังก์ชัน `toSlug` ก็จะไล่จากขวาไปช้าย สมมุติมีการส่งค่า `x` มาในฟังก์ชันมันก็จะทำงานตามนี้
 
-```
+```text
 slug <-- join('-') <-- map(toLowerCase) <-- map(removeSpecialChar) <-- split(/\s/) <-- x
 ```
 
@@ -259,7 +259,7 @@ slug <-- join('-') <-- map(toLowerCase) <-- map(removeSpecialChar) <-- split(/\s
 
 มันคือฟังก์ชันธรรมดาๆ ที่รับ Component เป็น Parameter และรีเทิร์น Component ใหม่ที่มีความสามารถเพิ่มขึ้นออกไป
 
-```
+```text
 HoC :: Component -> Component
 ```
 
@@ -302,7 +302,7 @@ class NoHoC extends React.Component {
 
 ที่อยากจะให้สังเกตคือ State ใน Component มีอยู่สองค่าคือ `count` กับ `text` ปัญหาก็คือทุกๆ State ที่ถูกกำหนด ต้องมีการสร้างฟังก์ชันเพื่อที่จะต้องมาอัปเดตเสมอ ในที่นี้ก็จะมี `incrementCount` และ `onTextChange` และสองฟังก์ชันนี้ยังต้อง `.bind(this)` อีก ต่อไปผมจะยกตัวอย่างการสร้าง HoC เพื่อมาใช้แก้ปัญหานี้โดยมีคอนเซ็ปต์คือมันจะต้องเป็นฟังก์ชันที่รับ ชื่อของ State ชื่อที่ไว้ใช้อัปเดต State และค่าเริ่มต้นของ State และรีเทิร์น HoC ออกไป
 
-```
+```text
 withState :: (stateName, stateUpdateName, initialValue)
   -> BaseComponent -> NewComponent
 ```
@@ -403,7 +403,7 @@ export default enhance(FooComponent)
 
 ต่อไปจะยกตัวอย่างสร้าง HoC อีกสักหนึ่งตัวนะครับ เพื่อใช้สำหรับแก้ไข Props โดยผมอยากทำให้ FooComponent เพิ่ม Prop สำหรับลบเพิ่มค่า Count และเพิ่ม Prop `onTextChange` สำหรับอัปเดต `text`
 
-```
+```text
 mapProps :: mapFn -> BaseComponent -> NewComponent
 ```
 

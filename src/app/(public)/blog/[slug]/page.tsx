@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { allBlogs } from 'contentlayer/generated'
 import Balancer from 'react-wrap-balancer'
-import { Mdx } from '@/components/Mdx'
 import { generatePageMetadata } from '@/seo'
 import { Suspense } from 'react'
 import View from '@/components/View'
 import { ViewIncrement } from './components/ViewIncrement'
 import { Loading } from '@/components/Loading'
 import Image from 'next/image'
+import { getPost } from '@/services/posts'
+import { PostBody } from './components/PostBody'
 
 function formatDate(date: string) {
   const currentDate = new Date()
@@ -42,14 +42,7 @@ function formatDate(date: string) {
 export async function generateMetadata({
   params,
 }: any): Promise<Metadata | undefined> {
-  const post = allBlogs
-    .sort((a, b) => {
-      if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-        return -1
-      }
-      return 1
-    })
-    .find(post => post.slug === params.slug)
+  const post = await getPost(params.slug);
   return generatePageMetadata({
     title: post?.title || 'blog',
     description: post?.summary,
@@ -58,7 +51,7 @@ export async function generateMetadata({
 }
 
 export default async function Blog({ params }: any) {
-  const post = allBlogs.find(post => post.slug === params.slug)
+  const post = await getPost(params.slug);
 
   if (!post) {
     notFound()
@@ -102,7 +95,7 @@ export default async function Blog({ params }: any) {
         </div>
       )}
       <div className="prose lg:prose-xl dark:prose-invert mx-auto max-w-3xl">
-        <Mdx code={post.body.code} />
+        <PostBody>{post?.body}</PostBody>
       </div>
     </>
   )

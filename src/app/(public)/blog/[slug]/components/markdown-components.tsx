@@ -1,7 +1,5 @@
-import * as React from 'react'
-import Link from 'next/link'
+import Link from "next/link"
 import Image from 'next/image'
-import { useMDXComponent } from 'next-contentlayer/hooks'
 
 const CustomLink = (props: any) => {
   const href = props.href
@@ -31,13 +29,8 @@ function RoundedImage(props: any) {
   )
 }
 
-const components = {
+/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
+export default {
   Image: RoundedImage,
   a: CustomLink,
-}
-
-export function Mdx({ code }: { code: string }) {
-  const Component = useMDXComponent(code)
-
-  return <Component components={components} />
 }
