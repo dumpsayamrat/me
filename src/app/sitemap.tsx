@@ -1,15 +1,16 @@
 import { MetadataRoute } from 'next'
-import { allBlogs } from 'contentlayer/generated'
-import { siteMetadata } from '@/site-metadata.mjs'
+import { siteMetadata } from '@/site-metadata'
+import { cachedGetPosts } from '@/services/posts'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = siteMetadata.siteUrl
-  const blogRoutes = allBlogs.map(post => ({
+  const allPosts = await cachedGetPosts();
+  const blogRoutes = allPosts.map(post => ({
     url: `${siteUrl}/${post.slug}`,
     lastModified: new Date(post.publishedAt),
   }))
 
-  const routes = ['', 'blog'].map(route => ({
+  const routes = ['', 'blog', 'gallery'].map(route => ({
     url: `${siteUrl}/${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }))

@@ -1,9 +1,11 @@
 import fs from 'fs'
 import { Feed } from 'feed'
-import { allBlogs } from '../../.contentlayer/generated/index.mjs'
-import { siteMetadata } from '../site-metadata.mjs'
+import { siteMetadata } from '../site-metadata'
+import {getPosts} from '../services/posts'
+
 
 export default async function generateRssFeed() {
+  const allBlogs = await getPosts()
   const allPosts = allBlogs.sort((a, b) => {
     if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
       return -1

@@ -1,4 +1,4 @@
-import { getCachedPhotoList } from '@/cache/photo'
+import { getCachedPhotoList } from '@/services/photo'
 import { SMALL_PHOTO_SIZE } from '@/constants'
 import { generatePageMetadata } from '@/seo'
 import Image from 'next/image'

@@ -1,6 +1,6 @@
 'use client'
 
-import { siteMetadata } from '@/site-metadata.mjs'
+import { siteMetadata } from '@/site-metadata'
 import { motion } from 'framer-motion'
 import React, { useState } from 'react'
 import Image from 'next/image'

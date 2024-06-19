@@ -1,6 +1,6 @@
 import Avatar from '@/components/Avatar'
 import { generatePageMetadata } from '@/seo'
-import { siteMetadata } from '@/site-metadata.mjs'
+import { siteMetadata } from '@/site-metadata'
 import Link from 'next/link'
 
 export const metadata = generatePageMetadata({

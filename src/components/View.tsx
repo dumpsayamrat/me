@@ -1,4 +1,4 @@
-import { getAllViews } from '@/cache/views'
+import { getAllViews } from '@/services/views'
 import { generateBlogKey } from '@/utils/common'
 import { kv } from '@vercel/kv'
 
