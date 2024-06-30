@@ -4,7 +4,6 @@ import { LARGE_PHOTO_SIZE } from '@/constants'
 import { generatePageMetadata } from '@/seo'
 import { convertDecimalToExposure } from '@/utils/common'
 import Image from 'next/image'
-import { generateCdnUrl } from '@/utils/photo'
 
 export const metadata = generatePageMetadata({
   title: `gallery`,
@@ -16,25 +15,26 @@ export const revalidate = 'force-cache'
 export default async function Gallery() {
   const photos = await getCachedPhotoList()
   return (
-    <div className="grid grid-cols-1 gap-1">
+    <div className="grid gap-1">
       {photos.map(photo =>
         photo && photo.url ? (
           <div
             key={photo.id}
-            className="grid grid-cols-1 md:grid-cols-12 gap-x-4"
+            className="grid gap-x-4 grid-cols-1 md:grid-cols-2"
           >
-            <div className="relative overflow-hidden flex items-center col-span-1 md:col-span-9 animate-fade-in">
+            <div className="relative overflow-hidden flex items-center animate-fade-in m-w-[1200px]">
               <Image
-                src={generateCdnUrl(photo.url)}
+                src={photo.url}
                 alt={photo.title}
                 width={LARGE_PHOTO_SIZE}
                 height={LARGE_PHOTO_SIZE / photo.aspectRatio}
                 blurDataURL={photo.blur}
                 placeholder="blur"
                 quality={100}
+                style={{width: LARGE_PHOTO_SIZE, height: 'auto'}}
               />
             </div>
-            <div className="sticky top-4 self-start col-span-1 md:col-span-3 animate-fade-in-left prose lg:prose-xl dark:prose-invert">
+            <div className="sticky top-4 self-start animate-fade-in-left prose lg:prose-xl dark:prose-invert">
               <h3 className="text-xl font-bold mb-2 uppercase">
                 {photo.title}
               </h3>

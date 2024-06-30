@@ -7,6 +7,7 @@ import { kv } from '@vercel/kv'
 import { cache } from 'react'
 import MemoryCache from '@/memory-cache'
 import { CACHE_GET_PRESIGNED_KEY, MEMO_CACHE_TIME } from '@/constants'
+import { generateCdnUrl } from '@/utils/photo'
 
 const memoCache = MemoryCache.getInstance()
 
@@ -46,12 +47,9 @@ export const getPhotoList = async () => {
     )
   )
   photos = photos.sort((a, b) => (b?.createdAt ?? 0) - (a?.createdAt ?? 0))
-  const urls = await Promise.all(
-    photos.map(photo => (photo?.url ? getPresignedURL(photo?.url) : ''))
-  )
-  return photos.map((photo, index) => ({
+  return photos.map((photo) => ({
     ...(photo as Photo),
-    presignedURL: urls[index],
+    url: photo?.url ? generateCdnUrl(photo.url) : '',
   }))
 }
 
