@@ -13,16 +13,16 @@ export const revalidate = 'force-cache'
 export default async function Gallery() {
   const photos = await getCachedPhotoList()
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 mx-auto max-w-9xl">
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1 col-span-9">
+    <div className="grid gap-1">
+      <div className="grid grid-cols-2md:grid-cols-3 lg:grid-cols-4 gap-1">
         {photos.map(photo =>
-          photo && photo.presignedURL ? (
+          photo && photo.url ? (
             <div
               className="relative overflow-hidden shadow-md animate-fade-in"
               key={photo.id}
             >
               <Image
-                src={photo.presignedURL}
+                src={photo.url}
                 alt={photo.title}
                 width={SMALL_PHOTO_SIZE}
                 height={SMALL_PHOTO_SIZE / photo.aspectRatio}

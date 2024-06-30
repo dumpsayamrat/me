@@ -21,3 +21,5 @@ export const convertFormDataToPhoto = (data: PhotoFormData): Photo => {
     takenAt: new Date(data.takenAt).valueOf(),
   }
 }
+
+export const generateCdnUrl = (path: string) => `${process.env.NEXT_PUBLIC_CDN}/${path}`
