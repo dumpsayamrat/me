@@ -4,6 +4,7 @@ import { LARGE_PHOTO_SIZE } from '@/constants'
 import { generatePageMetadata } from '@/seo'
 import { convertDecimalToExposure } from '@/utils/common'
 import Image from 'next/image'
+import { generateCdnUrl } from '@/utils/photo'
 
 export const metadata = generatePageMetadata({
   title: `gallery`,
@@ -24,7 +25,7 @@ export default async function Gallery() {
           >
             <div className="relative overflow-hidden flex items-center col-span-1 md:col-span-9 animate-fade-in">
               <Image
-                src={`/photo?key=${photo.url}`}
+                src={generateCdnUrl(photo.url)}
                 alt={photo.title}
                 width={LARGE_PHOTO_SIZE}
                 height={LARGE_PHOTO_SIZE / photo.aspectRatio}
