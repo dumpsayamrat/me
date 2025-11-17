@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
+    serverExternalPackages: ['sass'],
     images: {
         imageSizes: [300, 600, 1200],
         remotePatterns: [
