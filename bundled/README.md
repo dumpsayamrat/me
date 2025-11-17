@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "me" generated at 2025-11-17T15:47:13.677Z.
