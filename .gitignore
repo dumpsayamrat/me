@@ -76,3 +76,12 @@ public/sitemap.xml
 public/rss.xml
 .vercel
 .env*.local
+
+# opennext
+/.open-next/
+
+# wrangler
+/.wrangler/
+.dev.vars
+
+dev-history

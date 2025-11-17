@@ -7,7 +7,10 @@
     "build": "next build",
     "postbuild": "tsx src/scripts/rss.ts && echo 'Build process is completed'",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pages:build": "npx @opennextjs/cloudflare build",
+    "preview": "npm run pages:build && wrangler dev",
+    "deploy": "npm run pages:build && wrangler deploy"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.441.0",
@@ -20,12 +23,12 @@
     "framer-motion": "^10.16.4",
     "gray-matter": "^4.0.3",
     "nanoid": "^5.0.3",
-    "next": "^14.0.1",
+    "next": "^15.5.2",
     "next-auth": "^4.24.4",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-wrap-balancer": "^1.1.0",
     "rehype-autolink-headings": "^7.0.0",
     "rehype-pretty-code": "^0.13.2",
@@ -34,9 +37,11 @@
     "remark-toc": "^9.0.0",
     "sass": "^1.69.4",
     "server-only": "^0.0.1",
+    "shiki": "^3.15.0",
     "stackblur-canvas": "^2.6.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.12.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -47,6 +52,7 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.3",
     "tsx": "^4.15.6",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "wrangler": "^4.47.0"
   }
 }

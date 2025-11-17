@@ -1,10 +1,12 @@
 import { savePhoto } from './action'
 import PhotoForm from '@/components/photo/PhotoForm'
 
+export const dynamic = 'force-dynamic'
+
 export default function UploadPage() {
-  return (
-    <section className="mx-auto px-5 text-gray-900 dark:text-gray-100">
-      <PhotoForm action={savePhoto} />
-    </section>
-  )
+    return (
+        <section className="mx-auto px-5 text-gray-900 dark:text-gray-100">
+            <PhotoForm action={savePhoto} />
+        </section>
+    )
 }
