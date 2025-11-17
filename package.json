@@ -19,7 +19,7 @@
     "@vercel/kv": "^0.2.3",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
-    "feed": "^4.2.2",
+    "feed": "^5.1.0",
     "framer-motion": "^10.16.4",
     "gray-matter": "^4.0.3",
     "nanoid": "^5.0.3",
@@ -35,7 +35,7 @@
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
     "remark-toc": "^9.0.0",
-    "sass": "^1.69.4",
+    "sass": "^1.94.0",
     "server-only": "^0.0.1",
     "stackblur-canvas": "^2.6.0"
   },
