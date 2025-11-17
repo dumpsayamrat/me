@@ -83,5 +83,6 @@ public/rss.xml
 # wrangler
 /.wrangler/
 .dev.vars
+/bundled/
 
 dev-history
